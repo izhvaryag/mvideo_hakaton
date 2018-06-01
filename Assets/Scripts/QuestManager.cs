@@ -12,8 +12,9 @@ public class QuestManager : MonoBehaviour {
     public static QuestManager Instance { get { return _instance;} }
     private void Awake()
     {
-        if (_instance != null || _instance != this)
+        if (_instance != null)
             Destroy(this);
+        _instance = this;
         DontDestroyOnLoad(this);
     }
     #endregion
