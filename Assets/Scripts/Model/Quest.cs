@@ -15,5 +15,13 @@ namespace MVideoQuest.Model
         public string id;
         public QuestStatus status;
         public int score;
+
+        public Quest(){}
+        public Quest (string id, QuestStatus status, int score)
+        {
+            this.id = id;
+            this.status = status;
+            this.score = score;
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using Newtonsoft.Json;
 using MVideoQuest.Model;
 
 public class QuestManager : MonoBehaviour {
@@ -36,6 +37,10 @@ public class QuestManager : MonoBehaviour {
     {
         path = Path.Combine(Application.streamingAssetsPath, fileName);
         QuestsFromFile(path);
+        if (quests == null)
+        {
+            DefaultSettings();
+        }
     }
 
     public void QuestsFromFile(string path)
@@ -43,15 +48,29 @@ public class QuestManager : MonoBehaviour {
         using (StreamReader stream = new StreamReader(path))
         {
             var json = stream.ReadToEnd();
-            quests = JsonUtility.FromJson<Quests>(json);
+            //quests = JsonUtility.FromJson<Quests>(json);
+            quests = JsonConvert.DeserializeObject<Quests>(json);
         }
+    }
+
+    void DefaultSettings()
+    {
+        quests = new Quests();
+        quests.quests = new Dictionary<string, Quest>();
+        quests.quests.Add("1", new MVideoQuest.Model.Quest("1", QuestStatus.AVAILIBLE, 0));
+        quests.quests.Add("2", new MVideoQuest.Model.Quest("2", QuestStatus.NOT_AVAILIBLE, 0));
+        quests.quests.Add("3", new MVideoQuest.Model.Quest("3", QuestStatus.NOT_AVAILIBLE, 0));
+        quests.quests.Add("4", new MVideoQuest.Model.Quest("4", QuestStatus.NOT_AVAILIBLE, 0));
+        quests.quests.Add("5", new MVideoQuest.Model.Quest("5", QuestStatus.NOT_AVAILIBLE, 0));
+        QuestsToFile();
     }
 
     public void QuestsToFile()
     {
         using (StreamWriter stream = new StreamWriter(path))
         {
-            var json = JsonUtility.ToJson(quests);
+            //var json = JsonUtility.ToJson(quests as object);
+            var json = JsonConvert.SerializeObject(quests);
             stream.Write(json);
         }
     }

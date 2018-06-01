@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/ARQuests.unity
+- path: Assets/Scenes/StartInterface.unity
   isLoaded: 1
   isActive: 1
